@@ -9,7 +9,17 @@ class Shot(CircleShape):
         super().__init__(x, y, SHOT_RADIUS)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, "white", self.position, SHOT_RADIUS, 2)
+        pygame.draw.circle(screen, "red", self.position, SHOT_RADIUS, 2)
+
+    # def update(self, dt):
+    #     self.position += self.velocity * dt
+
 
     def update(self, dt):
+        # Update position based on velocity and time delta
         self.position += self.velocity * dt
+
+        # Check if the shot goes out of bounds
+        if (self.position.x < 0 or self.position.x > SCREEN_WIDTH or 
+            self.position.y < 0 or self.position.y > SCREEN_HEIGHT):
+            self.kill()  # Remove the shot from the game

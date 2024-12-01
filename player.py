@@ -29,7 +29,7 @@ class Player(circleshape.CircleShape):
         return [a, b, c]
     
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), 3)
+        pygame.draw.polygon(screen, "green", self.triangle(), 3)
 
 
     def rotate(self, dt):
@@ -54,13 +54,44 @@ class Player(circleshape.CircleShape):
             self.timer = PLAYER_SHOOT_COOLDOWN
         if self.timer > 0:    
             self.timer -= dt
+
+    
         
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
+    # def shoot(self): 
+    #     shot = Shot(self.position.x, self.position.y)
+    #     shot_velocity = pygame.Vector2(0, 1)
+    #     shot_velocity.rotate(self.rotation) 
+    #     shot_velocity *= PLAYER_SHOOT_SPEED
+
+
     def shoot(self): 
+        # Create a shot at the player's position
         shot = Shot(self.position.x, self.position.y)
-        shot_velocity = pygame.Vector2(0, 1)
-        shot_velocity.rotate(self.rotation) 
+        
+        # Calculate the velocity based on the player's rotation
+        shot_velocity = pygame.Vector2(0, 1).rotate(self.rotation)  # -1 because pygame's (0, -1) is "up"
         shot_velocity *= PLAYER_SHOOT_SPEED
+        
+        # Assign the velocity to the shot
+        shot.velocity = shot_velocity
+
+
+    # def shoot(self): 
+    #     # Calculate the forward direction based on the rotation
+    #     forward = pygame.Vector2(0, -1).rotate(self.rotation)  # -1 because (0, -1) is "up" in pygame
+        
+    #     # Calculate the tip of the triangle (shot's starting position)
+    #     shot_position = self.position + forward * self.radius
+        
+    #     # Create the shot at the calculated position
+    #     shot = Shot(shot_position.x, shot_position.y)
+        
+    #     # Calculate the shot's velocity based on the forward direction
+    #     shot_velocity = forward * PLAYER_SHOOT_SPEED
+        
+    #     # Assign the velocity to the shot
+    #     shot.velocity = shot_velocity
